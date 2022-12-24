@@ -79,7 +79,7 @@ const _dom = (function(){
 			}
 		}
 		_y_minilib_manager_['CatchMethod.js']={CatchMethod};
-	})()
+	})();
 	(function(){
 		class DomCore{
 			constructor(){}
@@ -167,9 +167,21 @@ const _dom = (function(){
 				return tagName.split(/-([a-zA-Z])/).map((v,i)=>i%2?v.toUpperCase():v).join('');
 				// return tagName.split('-').map(v=>v.charAt(0).toUpperCase()+v.substr(1)).join('');
 			}
+			static pre_thow(method,message,data={}){
+				message=message instanceof Array ? message : [message];
+				let dk=Object.keys(data);
+				console.error('----------_dom.'+method+' Error');
+				Object.keys(data).forEach(k=>{
+					console.log(k+' = ',data[k]);
+				});
+				return ['',
+					'_dom.'+method+' Error:',
+					...message
+				].join('\n');
+			}
 		}
 		_y_minilib_manager_['DomCore.js']={DomCore};
-	})()
+	})();
 	(function(){
 		const {DomCore} = _y_minilib_manager_['DomCore.js'];
 		class DomRules{
@@ -321,7 +333,7 @@ const _dom = (function(){
 			}
 		}
 		_y_minilib_manager_['DomCss.js']={DomRules, DomCss};
-	})()
+	})();
 	(function(){
 		class DomCssStatus_Priv{
 			constructor(scope,data=''){
@@ -449,7 +461,15 @@ const _dom = (function(){
 			}
 		}
 		_y_minilib_manager_['DomCssStatus.js']={DomCssStatus};
-	})()
+	})();
+	(function(){
+		const settings={
+			debug:false,
+			modelref:'__dom',
+			moduleref:'__module__',
+		};
+		_y_minilib_manager_['settings.js']=settings;
+	})();
 	(function(){
 		const {modelref,debug} = _y_minilib_manager_['settings.js'];
 		const {DomCss} = _y_minilib_manager_['DomCss.js'];
@@ -501,7 +521,7 @@ const _dom = (function(){
 			}
 		}
 		_y_minilib_manager_['DomModel.js']={DomModel};
-	})()
+	})();
 	(function(){
 		// let _modelref='__dom';
 		// const debug=false;
@@ -577,15 +597,7 @@ const _dom = (function(){
 		// 	}
 		// }
 		_y_minilib_manager_['DomService.js']={DomService,DomServicesProxy};
-	})()
-	(function(){
-		const settings={
-			debug:false,
-			modelref:'__dom',
-			moduleref:'__module__',
-		};
-		_y_minilib_manager_['settings.js']=settings;
-	})()
+	})();
 	(function(){
 		const {DomCore} = _y_minilib_manager_['DomCore.js'];
 		const {modelref,debug} = _y_minilib_manager_['settings.js'];
@@ -672,7 +684,44 @@ const _dom = (function(){
 			}
 		}
 		_y_minilib_manager_['DomShadow.js']={DomShadow};
-	})()
+	})();
+	(function(){
+		class DomUtils{}
+		DomUtils.scroll={
+			offset:function(container,target,offset){
+				if(container.contains(target)){
+					if(typeof(offset)==='number')offset=[offset,offset];
+					else if(offset instanceof Array)offset=[0,1].map(i=>offset[i]||0);
+					else offset=[0,0];
+					const ofs=[0,0];
+					let tmp=target;
+					while (tmp!==container) {
+						ofs[0]+=tmp.offsetWidth;
+						ofs[1]+=tmp.offsetHeight;
+						tmp=tmp.parentNode;
+					}
+					const value = ofs.map((v,i)=>v-offset[i]);
+					return value;
+				}else{
+					console.error('----------_dom.scrollTo Error');
+					console.log('container=',container);
+					console.log('target=',target);
+					throw('_dom.scrollOffset Error: target not found in container');
+				}
+			},
+			value:function(container,target,offset){
+				const prev=[container.scrollLeft,container.scrollTop];
+				return this.offset(container,target,offset)
+				.map((v,i)=>Math.max(0,v-prev[i]));
+			},
+			to:function(container,target,offset){
+				const ofs=this.value(container,target,offset);
+				container.scrollTop=ofs[0];
+				container.scrollLeft=ofs[1];
+			}
+		};
+		_y_minilib_manager_['DomUtils.js']={DomUtils};
+	})();
 	(function(){
 		const {moduleref,debug} = _y_minilib_manager_['settings.js'];
 		const {DomCss} = _y_minilib_manager_['DomCss.js'];
@@ -702,7 +751,7 @@ const _dom = (function(){
 			*/
 			Object.defineProperty(_dom,'moduleName',{get:()=>domModule.name});
 			/**
-			* @property {uid} _dom.uid a new generated unique id each time you read.
+			* @property {uid} _dom.uid a different unique id each time it is read.
 			*/
 			Object.defineProperty(_dom,'uid',{get:()=>DomCore.uid});
 			/**
@@ -728,7 +777,7 @@ const _dom = (function(){
 			}
 			/**
 			* Add a custom element to this module.
-			* NB: the**__dom** property will be added to the element, pointing to it's interface (model instance).
+			* NB: the **__dom** property will be added to the element, pointing to it's interface (model instance).
 			* interface['dom'] : dom element;
 			* interface[tagName] : element tagName;
 			* @parameter {string} tagName the custom element name. Should contain at least one "-" to avoid conflict with natives HTMLElements.
@@ -745,12 +794,12 @@ const _dom = (function(){
 			_dom.model=function(tagName,constructor,cssRules,shadowed){
 				return domModule.model(tagName,constructor,cssRules,shadowed);
 			}
-			/**
-			* 
+			/** 
+			* (beta) adds a module service
 			* @param {string} name 
 			* @param {Class(proxy:DomServiceConstructorProxy)} constructor : service constructor
 			* @param {array|function():array} args arguments for instanciation
-			* @returns 
+			* @returns {any} service
 			*/
 			_dom.addService=function(name,constructor,args){
 				return domModule.addService(name,constructor,args);
@@ -765,8 +814,8 @@ const _dom = (function(){
 			}
 			/**
 			* Instanciates a declared model.
-			* Useful if you dont want of the**__dom** property in your html element.
-			* If not, you should instead use _dom and refer to the result**__dom** attribute.
+			* Useful if you dont want of the **__dom** property in your html element.
+			* If not, you should instead use _dom and refer to the result **__dom** attribute.
 			* @parameter {string} tagName
 			* @parameter {...} ___ whatever arguments the model constructor uses
 			* @returns {DomModelInstance} an object with the 'dom' property as the root HTMLElement.
@@ -775,7 +824,7 @@ const _dom = (function(){
 				return domModule.instance(tagName,whatever__);
 			}
 			/**
-			* Finds**dom** parent if the condition is fullfilled
+			* Finds **dom** parent if the condition is fullfilled
 			* @param {Htmlelement} dom : the starting element
 			* @param {function():boolean} condition : checks if the element fullfills your conditions
 			* @param {number>1} maxDeep : how deep in the parent pile you will search
@@ -832,8 +881,8 @@ const _dom = (function(){
 				return DomShadow.modelShadow(domModule,tagName,argTypes);
 			};
 			/**
-			* returns an empty module.
-			* Use with**export** and **import** to modularise applications
+			* (beta) returns an empty module.
+			* Use with **export** and **import** to modularise applications
 			* @param {string} [name] 
 			* @returns {_dom}
 			*/
@@ -841,7 +890,7 @@ const _dom = (function(){
 				return domModule.module(name)._dom;
 			}
 			/**
-			* clone _dom module and obfuscate unreferenced models
+			* (beta) clone _dom module and obfuscate unreferenced models
 			* @param {string[]|string} models : reference public models.
 			* @returns {_dom}
 			*/
@@ -849,36 +898,46 @@ const _dom = (function(){
 				return domModule.export(models)._dom;
 			}
 			/**
-			* import other modules
+			* (beta) import other modules
 			* @param {Array<_dom|DomModule>} domModules 
 			*/
 			_dom.import=function(domModules){
 				domModule.import(domModules);
 			}
 			/**
-			* 
-			* @param {*} options 
-			* @returns 
+			* (beta) Use with model declaration to handle status binded css
+			* @param {string|object(prefix?:string,defaultValue?:string,initValue?:string)} options
+			* css prefix or options :
+			* - prefix?: the css prefixing status className
+			* - defaultValue?: the default status when unidentified
+			* - initValue?: the status when attaching dom.
+			* @returns {DomCssStatus}
 			*/
 			_dom.cssStatus=function(options=''){
 				return new DomCssStatus(options);
 			}
 			/**
-			* 
-			* @param {*} container 
-			* @param {*} target 
-			* @param {*} offset 
-			* @returns 
+			* scroll **container** to target element
+			* @param {HtmlElement} container 
+			* @param {HtmlElement} target
+			* @param {[number,number]} [offset] : position offset
 			*/
 			_dom.scrollTo=function(container,target,offset){
 				DomUtils.scroll.to(container,target,offset);
 			}
+			/**
+			 * (beta) Hacks target native methods
+			 * @param {object} target 
+			 * @param {string} method 
+			 * @param {function} callback 
+			 * @returns {CatchMethod}
+			 */
 			_dom.catchMethod=function(target,method,callback){
 				return new CatchMethod(target,method,callback).attach();
 			}
 			return _dom;
 		};
-	})()
+	})();
 	(function(){
 		// let _modelref='__dom';
 		// const debug=false;
@@ -914,6 +973,11 @@ const _dom = (function(){
 				this.modules.forEach(m=>list.push(...m.availableModels));
 				return list.concat(Array.from(this.publicModels.keys()));
 			}
+			get availableServices(){
+				const list=[];
+				this.modules.forEach(m=>list.push(...m.availableServices));
+				return list.concat(Array.from(this.publicServices.keys()));
+			}
 			get parentPile(){
 				return this.parent?this.parent.pile:[];
 			}
@@ -939,27 +1003,58 @@ const _dom = (function(){
 				dmod.parent		= parent;
 				dmod.models		= new Map(data.models||this.models);
 				dmod.publicModels	= new Map(data.publics||this.publicModels);
+				dmod.publicServices	= new Map(data.publicServices||this.publicServices);
 				dmod.modules	= this.modules.map(m=>m.clone(null,this));
 				return dmod;
 			}
-			export(models){
-				const list = (models instanceof Array)?models:[models];
-				let notFound;
-				if(!list.length){
-					console.error('----------_dom.export Error');
-					console.log('models=',models);
-					throw('\n_dom.export Error:\nlist "models" is empty.');
-				}else if((notFound=list.filter(n=>!this.has(n))).length){
-					console.error('----------_dom.export Error');
-					console.log('models=',models);
-					console.log('not found=',notFound);
-					console.log('availables=',this.availableModels);
-					throw('\n_dom.export Error:\nSome models are not found.');
-				}else{
-					let data={publics:new Map()};
-					list.forEach(k=>data.publics.set(k,true));
-					return this.clone(data);
+			export(models,services=[]){
+				const xobj={models,services};
+				for(let k in xobj){
+					let v=xobj[k];
+					console.log(v instanceof Array,v.every(v=>typeof(v)==='string'));
+					if(!(v instanceof Array)||!v.every(v=>typeof(v)==='string')){
+						throw(DomCore.pre_thow('export',[
+							'argument "'+k+'" Must be an array of strings.'
+						],{[k]:v}));
+					}
 				}
+				if(!(models.length+services.length)){
+					throw(DomCore.pre_thow('export',[
+						'cant export a module with no public declarations.'
+					],{models,services}));
+				}
+				let notFound;
+				if((notFound=models.filter(n=>!this.hasModel(n))).length){
+					throw(DomCore.pre_thow('export',[
+						'Some models are not found.'
+					],{models,'not found':notFound,availables:this.availableModels}));
+				}
+				if((notFound=services.filter(n=>!this.hasService(n))).length){
+					throw(DomCore.pre_thow('export',[
+						'Some services are not found.'
+					],{services,'not found':notFound,availables:this.availableServices}));
+				}
+				let data={publics:new Map(),publicServices:new Map()};
+				models.forEach(k=>data.publics.set(k,true));
+				services.forEach(k=>data.publicServices.set(k,true));
+				return this.clone(data);
+				// const list = (models instanceof Array)?models:[models];
+				// if((notFound=list.filter(n=>!this.has(n))).length){}
+				// if(!list.length){
+				// 	console.error('----------_dom.export Error');
+				// 	console.log('models=',models);
+				// 	throw('\n_dom.export Error:\nlist "models" is empty.');
+				// }else if((notFound=list.filter(n=>!this.has(n))).length){
+				// 	console.error('----------_dom.export Error');
+				// 	console.log('models=',models);
+				// 	console.log('not found=',notFound);
+				// 	console.log('availables=',this.availableModels);
+				// 	throw('\n_dom.export Error:\nSome models are not found.');
+				// }else{
+				// 	let data={publics:new Map()};
+				// 	list.forEach(k=>data.publics.set(k,true));
+				// 	return this.clone(data);
+				// }
 			}
 			import(domModules){
 				const nmi=[];
@@ -1094,49 +1189,12 @@ const _dom = (function(){
 			}
 		}
 		_y_minilib_manager_['DomModule.js']={DomModule};
-	})()
-	(function(){
-		class DomUtils{}
-		DomUtils.scroll={
-			offset:function(container,target,offset){
-				if(container.contains(target)){
-					if(typeof(offset)==='number')offset=[offset,offset];
-					else if(offset instanceof Array)offset=[0,1].map(i=>offset[i]||0);
-					else offset=[0,0];
-					const ofs=[0,0];
-					let tmp=target;
-					while (tmp!==container) {
-						ofs[0]+=tmp.offsetWidth;
-						ofs[1]+=tmp.offsetHeight;
-						tmp=tmp.parentNode;
-					}
-					const value = ofs.map((v,i)=>v-offset[i]);
-					return value;
-				}else{
-					console.error('----------_dom.scrollTo Error');
-					console.log('container=',container);
-					console.log('target=',target);
-					throw('_dom.scrollOffset Error: target not found in container');
-				}
-			},
-			value:function(container,target,offset){
-				const prev=[container.scrollLeft,container.scrollTop];
-				return this.offset(container,target,offset)
-				.map((v,i)=>Math.max(0,v-prev[i]));
-			},
-			to:function(container,target,offset){
-				const ofs=this.value(container,target,offset);
-				container.scrollTop=ofs[0];
-				container.scrollLeft=ofs[1];
-			}
-		};
-		_y_minilib_manager_['DomUtils.js']={DomUtils};
-	})()
+	})();
 	(function(){
 		const {DomModule} = _y_minilib_manager_['DomModule.js'];
 		_y_minilib_manager_['_dom.js']=(new DomModule())._dom;
 		// _y_minilib_manager_['_dom.js']=(window._dom)||(new DomModule())._dom;
-	})()
+	})();
 	return _y_minilib_manager_["_dom.js"];
 })();
 try {
