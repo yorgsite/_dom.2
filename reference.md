@@ -1,23 +1,23 @@
 - [_dom](#tgt__dom) Create an HTMLElement
-  - [_dom.addService](#tgt__dom_addService) (beta) adds a module service
+  - [_dom.addService](#tgt__dom_add-service) (beta) adds a module service
   - [_dom.append](#tgt__dom_append) (deprecated,system) adds elements to target
-  - [_dom.catchMethod](#tgt__dom_catchMethod) (beta) Hacks target native methods
-  - [_dom.cssStatus](#tgt__dom_cssStatus) (beta) Use with model declaration to handle status binded css
-  - [_dom.defaultCss](#tgt__dom_defaultCss) Get browser native element default css values.
+  - [_dom.catchMethod](#tgt__dom_catch-method) (beta) Hacks target native methods
+  - [_dom.cssStatus](#tgt__dom_css-status) (beta) Use with model declaration to handle status binded css
+  - [_dom.defaultCss](#tgt__dom_default-css) Get browser native element default css values.
   - [_dom.export](#tgt__dom_export) (beta) clone _dom module and obfuscate unreferenced models
-  - [_dom.findParent](#tgt__dom_findParent) Finds **dom** parent if the condition is fullfilled
+  - [_dom.findParent](#tgt__dom_find-parent) Finds **dom** parent if the condition is fullfilled
   - [_dom.has](#tgt__dom_has) Checks if a model is available in this module.
   - [_dom.import](#tgt__dom_import) (beta) import other modules
   - [_dom.instance](#tgt__dom_instance) Instanciates a declared model. …
   - [_dom.model](#tgt__dom_model) Add a custom element to this module. …
-  - [_dom.modelShadow](#tgt__dom_modelShadow) renders your model intanciable via html by using dom shadow
-  - [_dom.modelShadowed](#tgt__dom_modelShadowed) check if a model has allready been shadowed.
+  - [_dom.modelShadow](#tgt__dom_model-shadow) renders your model intanciable via html by using dom shadow
+  - [_dom.modelShadowed](#tgt__dom_model-shadowed) check if a model has allready been shadowed.
   - [_dom.module](#tgt__dom_module) (beta) returns an empty module. …
   - [_dom.rule](#tgt__dom_rule) Create a new js cssRule object;
   - [_dom.rules](#tgt__dom_rules) Create a collection of cssRule objects;
-  - [_dom.scrollTo](#tgt__dom_scrollTo) scroll **container** to target element
+  - [_dom.scrollTo](#tgt__dom_scroll-to) scroll **container** to target element
   - [_dom.models](#tgt__dom_models)
-  - [_dom.moduleName](#tgt__dom_moduleName)
+  - [_dom.moduleName](#tgt__dom_module-name)
   - [_dom.services](#tgt__dom_services)
   - [_dom.sheet](#tgt__dom_sheet)
   - [_dom.uid](#tgt__dom_uid)
@@ -35,7 +35,7 @@ Create an HTMLElement
 
 
 
-## <a name="tgt__dom_addService"></a> _dom.addService
+## <a name="tgt__dom_add-service"></a> _dom.addService
 
 (beta) adds a module service
  - **param**  {string} name
@@ -55,7 +55,7 @@ Create an HTMLElement
 
 
 
-## <a name="tgt__dom_catchMethod"></a> _dom.catchMethod
+## <a name="tgt__dom_catch-method"></a> _dom.catchMethod
 
 (beta) Hacks target native methods
  - **param**  {object} target
@@ -66,7 +66,7 @@ Create an HTMLElement
 
 
 
-## <a name="tgt__dom_cssStatus"></a> _dom.cssStatus
+## <a name="tgt__dom_css-status"></a> _dom.cssStatus
 
 (beta) Use with model declaration to handle status binded css
  - **param**  {string|object(prefix?:string,defaultValue?:string,initValue?:string)} options<br/>css prefix or options :<br/>- prefix?: the css prefixing status className<br/>- defaultValue?: the default status when unidentified<br/>- initValue?: the status when attaching dom.
@@ -75,7 +75,7 @@ Create an HTMLElement
 
 
 
-## <a name="tgt__dom_defaultCss"></a> _dom.defaultCss
+## <a name="tgt__dom_default-css"></a> _dom.defaultCss
 
 Get browser native element default css values.
  - **parameter**  {string} tagName : tag name of the native element to test
@@ -93,7 +93,7 @@ Get browser native element default css values.
 
 
 
-## <a name="tgt__dom_findParent"></a> _dom.findParent
+## <a name="tgt__dom_find-parent"></a> _dom.findParent
 
 Finds **dom** parent if the condition is fullfilled
  - **param**  {Htmlelement} dom : the starting element
@@ -142,7 +142,7 @@ Add a custom element to this module.<br/>NB: the **__dom** property will be adde
 
 
 
-## <a name="tgt__dom_modelShadow"></a> _dom.modelShadow
+## <a name="tgt__dom_model-shadow"></a> _dom.modelShadow
 
 renders your model intanciable via html by using dom shadow
  - **parameter**  {string} tagName the model name.
@@ -151,7 +151,7 @@ renders your model intanciable via html by using dom shadow
 
 
 
-## <a name="tgt__dom_modelShadowed"></a> _dom.modelShadowed
+## <a name="tgt__dom_model-shadowed"></a> _dom.modelShadowed
 
 check if a model has allready been shadowed.
  - **parameter**  {string} tagName the model name.
@@ -190,7 +190,7 @@ Create a collection of cssRule objects;
 
 
 
-## <a name="tgt__dom_scrollTo"></a> _dom.scrollTo
+## <a name="tgt__dom_scroll-to"></a> _dom.scrollTo
 
 scroll **container** to target element
  - **param**  {HtmlElement} container
@@ -208,7 +208,7 @@ scroll **container** to target element
 
 
 
-## <a name="tgt__dom_moduleName"></a> _dom.moduleName
+## <a name="tgt__dom_module-name"></a> _dom.moduleName
 
 
  - **property**  {string} _dom.moduleName return the handling module name.
