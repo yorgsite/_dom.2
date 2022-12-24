@@ -6,3 +6,4 @@ compile.js
 makedoc.js
 package.minilib.jsonc
 *.bat
+index.d.ts
