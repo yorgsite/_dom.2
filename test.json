@@ -1,0 +1,372 @@
+{
+	"etl": [
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "Create an HTMLElement\r\n@parameter {string} tagName the element tagname\r\n@parameter {object} [datas] element attributes.\r\n@parameter {Array} [childs] element childs. can contain strings an html elements.\r\n@parameter {string} [nameSpace] element namesapace if any.\r\n@returns {HTMLElement} a new html element",
+			"script": {
+				"name": "const _dom",
+				"atype": "assign",
+				"dtype": "const",
+				"vtype": "function",
+				"rest": "tagName,datas,childs,nameSpace"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "(system) reference to the linked module",
+			"script": {
+				"name": "Object.defineProperty",
+				"atype": "klasFunc",
+				"dtype": "attr",
+				"vtype": "value",
+				"rest": "_dom,moduleref,{value:domModule,writable:false,enumerable:false});"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "@property {string} _dom.moduleName return the handling module name.",
+			"script": {
+				"name": "Object.defineProperty",
+				"atype": "klasFunc",
+				"dtype": "attr",
+				"vtype": "value",
+				"rest": "_dom,'moduleName',{get:()=>domModule.name});"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "@property {uid} _dom.uid a new generated unique id each time you read.",
+			"script": {
+				"name": "Object.defineProperty",
+				"atype": "klasFunc",
+				"dtype": "attr",
+				"vtype": "value",
+				"rest": "_dom,'uid',{get:()=>DomCore.uid});"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "@property {string[]} _dom.models a list of available models in this module.",
+			"script": {
+				"name": "Object.defineProperty",
+				"atype": "klasFunc",
+				"dtype": "attr",
+				"vtype": "value",
+				"rest": "_dom,'models',{get:()=>domModule.availableModels});"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "@property {CSSStyleSheet} _dom.sheet The last available CSSStyleSheet.",
+			"script": {
+				"name": "Object.defineProperty",
+				"atype": "klasFunc",
+				"dtype": "attr",
+				"vtype": "value",
+				"rest": "_dom,'sheet',{get:()=>DomCss.sheet});"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "@property {Proxy} _dom.services A proxy to the module services by their name.",
+			"script": {
+				"name": "Object.defineProperty",
+				"atype": "klasFunc",
+				"dtype": "attr",
+				"vtype": "value",
+				"rest": "_dom,'services',{get:()=>domModule.servicesProxy});\r\n\t\r\n\t// Object.defineProperty(this,'services',{get:function(){return model.module.servicesProxy;}});"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "(deprecated,system) adds elements to target\r\n@param {*} target\r\n@param {html||text[]} childs",
+			"script": {
+				"name": "_dom.append",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "target,childs"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "Add a custom element to this module.\r\nNB: the**__dom** property will be added to the element, pointing to it's interface (model instance).\r\ninterface['dom'] : dom element;\r\ninterface[tagName] : element tagName;\r\n@parameter {string} tagName the custom element name. Should contain at least one \"-\" to avoid conflict with natives HTMLElements.\r\n@parameter {function} constructor receive the arguments of <b>_dom(...args)</b> but the dont have to respect the nomenclature excepted 'tagName'.\r\nMust return an HTMLElement.\r\n<b>NB</b> : constructor Must be a function and <b>NOT a lambda expression</b> because it is scoped to its interface.\r\n@parameter {object|function} [cssRules] is or returns an object describing rules like _dom.rules,\r\nbut the created collection will be instancied only once and shared among interfaces.\r\nAdds the 'rules' property to the interface.\r\n@parameter {boolean|object} [shadowed] If true or object, your model is instanciable via html.\r\nSee _dom.modelShadow.\r\nif object, shadowed is the arguments types by their name.",
+			"script": {
+				"name": "_dom.model",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "tagName,constructor,cssRules,shadowed"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "@param {string} name\r\n@param {Class(proxy:DomServiceConstructorProxy)} constructor : service constructor\r\n@param {array|function():array} args arguments for instanciation\r\n@returns",
+			"script": {
+				"name": "_dom.addService",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "name,constructor,args"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "Checks if a model is available in this module.\r\n@parameter {string} tagName : the name of the model\r\n@return {boolean} true if tagName exists.",
+			"script": {
+				"name": "_dom.has",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "tagName"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "Instanciates a declared model.\r\nUseful if you dont want of the**__dom** property in your html element.\r\nIf not, you should instead use _dom and refer to the result**__dom** attribute.\r\n@parameter {string} tagName\r\n@parameter {...} ___ whatever arguments the model constructor uses\r\n@returns {DomModelInstance} an object with the 'dom' property as the root HTMLElement.",
+			"script": {
+				"name": "_dom.instance",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "tagName,whatever__"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "Finds**dom** parent if the condition is fullfilled\r\n@param {Htmlelement} dom : the starting element\r\n@param {function():boolean} condition : checks if the element fullfills your conditions\r\n@param {number>1} maxDeep : how deep in the parent pile you will search\r\n@returns {Htmlelement}",
+			"script": {
+				"name": "_dom.findParent",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "dom,condition,maxDeep=10"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "Get browser native element default css values.\r\n@parameter {string} tagName : tag name of the native element to test\r\n@returns {Map} the default css values.",
+			"script": {
+				"name": "_dom.defaultCss",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "tagName,force=false"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "Create a new js cssRule object;\r\n@parameter {string} selector the new rule css query.\r\n@parameter {object} [datas] style datas.\r\n@returns {CSSStyleRule}",
+			"script": {
+				"name": "_dom.rule",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "selector, datas, sheet"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "Create a collection of cssRule objects;\r\n@parameter {object} datas sass like structured object\r\n@parameter {CSSStyleSheet} [sheet] target stylesheet\r\n@parameter {string} [uniquePrefix] if set, will encapsulate datas with a unique className.\r\nan object {className:string,rules:object([ruleName]:CSSStyleRule} will be returned.\r\n@returns {object([ruleName]:CSSStyleRule)}",
+			"script": {
+				"name": "_dom.rules",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "data,sheet,uniquePrefix=''"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "check if a model has allready been shadowed.\r\n@parameter {string} tagName the model name.\r\n@returns {boolean}",
+			"script": {
+				"name": "_dom.modelShadowed",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "tagName"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "renders your model intanciable via html by using dom shadow\r\n@parameter {string} tagName the model name.\r\n@parameter {object} [argTypes] argument types by their name.",
+			"script": {
+				"name": "_dom.modelShadow",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "tagName,argTypes"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "returns an empty module.\r\nUse with**export** and **import** to modularise applications\r\n@param {string} [name]\r\n@returns {_dom}",
+			"script": {
+				"name": "_dom.module",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "name"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "clone _dom module and obfuscate unreferenced models\r\n@param {string[]|string} models : reference public models.\r\n@returns {_dom}",
+			"script": {
+				"name": "_dom.export",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "models"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "import other modules\r\n@param {Array<_dom|DomModule>} domModules",
+			"script": {
+				"name": "_dom.import",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "domModules"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "@param {*} options\r\n@returns",
+			"script": {
+				"name": "_dom.cssStatus",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "options=''"
+			}
+		},
+		{
+			"src": {
+				"fileName": "_dom.builder.js",
+				"path": "C:/__perso/node_js/__git/_dom/src/_dom.builder.js",
+				"_txt": null,
+				"_cr": "\r\n"
+			},
+			"com": "@param {*} container\r\n@param {*} target\r\n@param {*} offset\r\n@returns",
+			"script": {
+				"name": "_dom.scrollTo",
+				"atype": "assign",
+				"dtype": "attr",
+				"vtype": "function",
+				"rest": "container,target,offset"
+			}
+		}
+	]
+}

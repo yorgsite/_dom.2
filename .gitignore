@@ -1,0 +1,7 @@
+
+node_modules/
+src/
+_tools/
+compile.js
+makedoc.js
+package.minilib.jsonc

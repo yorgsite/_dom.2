@@ -1,0 +1,39 @@
+{
+  "name": "dom-for-node",
+  "version": "2.0.0",
+  "description": "A light but powerful javascript library for html apps.",
+  "main": "_dom.node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yorgsite/_dom.2.git"
+  },
+  "keywords": [
+    "web",
+    "html",
+    "dom",
+    "app",
+    "webapp",
+    "applications",
+    "css",
+    "scss",
+    "templates",
+    "components",
+	"modules",
+	"services"
+  ],
+  "author": "Yorg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yorgsite/_dom/issues"
+  },
+  "homepage": "https://github.com/yorgsite/_dom#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.5",
+    "terser": "^5.3.0",
+    "tui-jsdoc-template": "^1.2.2",
+    "y-minilib": "^0.0.3"
+  }
+}
