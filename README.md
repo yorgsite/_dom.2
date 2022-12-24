@@ -44,8 +44,9 @@ The purposes of **_dom.js** are:
 	+ [Shadow dom](#tg_shadow_dom) / [_dom.modelShadow](#tg__dom.modelShadow)
 	+ [Model creator](#tg_model_creator)
 <!-- + [Exemples](#tg_exemples) -->
++ [V2 features](#tg_v2features)
 
-You may also use the [quick reference](reference.md).
+API [documentation](reference.md).
 <hr/>
 
 ## <a name="tg_webjs"></a> Use in web page
@@ -302,9 +303,14 @@ To create fast and easy the backbone of your component, you can use the [model c
 <br/>
 <hr/>
 
-## <a name="tg_exemples"></a> Exemples
+## <a name="tg_v2features"></a> V2 features
+
+V2 brings new features like module and new tools. Some of them (beta) are still experimental.
+
+See more on [documentation](reference.md).
+<!-- ## <a name="tg_exemples"></a> Exemples
 
 A digest of the preceeding exemples can be found in **[exemple.html](exemples/exemple.html)**.
 
 + An exemple of simple tabs conponent : **[exemple_tabs.html](exemples/exemple_tabs.html)**.
-+ An exemple of a richer tabs conponent : **[exemple_tabs2.html](exemples/exemple_tabs2.html)**.
++ An exemple of a richer tabs conponent : **[exemple_tabs2.html](exemples/exemple_tabs2.html)**. -->
