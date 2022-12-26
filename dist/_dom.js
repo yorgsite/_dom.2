@@ -952,7 +952,7 @@ const _dom = (function(){
 			constructor(name){
 				if(!rootModule)rootModule=this;
 				this.id			= idCnt++;
-				this.name		= name||('mod_module_'+this.id);
+				this.name		= name||('dom_module_'+this.id);
 				this.models		= new Map();
 				this.publicModels	= new Map();
 				this.services	= new Map();
@@ -1072,10 +1072,10 @@ const _dom = (function(){
 				let pile=this.parentPile;
 				list.map(added=>{
 					if(this.id===added.id){
-						throw('\n_dom.import Error:\nModule "'+fm.name+'" cant import Himself.');
+						throw('\n_dom.import Error:\nModule "'+added.name+'" cant import Himself.');
 					}
 					if(this.modules.find((m)=>m.id===added.id)){
-						throw('\n_dom.import Error:\nModule "'+fm.name+'" allready in "'+this.name+'" collection.');
+						throw('\n_dom.import Error:\nModule "'+added.name+'" allready in "'+this.name+'" collection.');
 					}
 					pile.map(dm=>{
 						if(added.findModule((m)=>m.id===dm.id)){
@@ -1119,7 +1119,8 @@ const _dom = (function(){
 				if(this.publicModels.has(tagName)){
 					return this.models.get(tagName);
 				}else{
-					return this.modules.find(m=>m.getModel(tagName))||null;
+					const mod = this.modules.find(m=>m.publicModels.has(tagName));
+					return (mod&&mod.getModel(tagName))||null;
 				}
 			}
 			/**
