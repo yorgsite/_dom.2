@@ -740,7 +740,7 @@ const _dom = (function(){
 			* @returns {HTMLElement} a new html element
 			*/
 			const _dom=function(tagName,datas,childs,nameSpace){
-				return domModule.make(tagName,datas,childs,nameSpace);
+				return domModule.make(...arguments);
 			};
 			/**
 			* (system) reference to the linked module
